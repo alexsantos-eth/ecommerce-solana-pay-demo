@@ -1,7 +1,7 @@
 import React from "react";
 
 // COMPONENTES
-import ShopPage from "components/pages/shop";
+import ShopPage from "pages/shop";
 
 const App: React.FC = () => {
   return <ShopPage />;

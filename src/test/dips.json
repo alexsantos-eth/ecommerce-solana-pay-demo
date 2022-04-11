@@ -1,22 +1,22 @@
 {
-  "extra_blue_cheese": {
+  "dips_bleu_cheese": {
     "description": "280 Cal",
-    "name": "Blue Cheese",
-    "id": "extra_blue_cheese"
+    "name": "Bleu Cheese",
+    "id": "dips_bleu_cheese"
   },
-  "extra_ranch": {
+  "dips_ranch": {
     "description": "320 Cal",
     "name": "Ranch",
-    "id": "extra_ranch"
+    "id": "dips_ranch"
   },
-  "extra_carrots": {
+  "dips_carrots": {
     "description": "25 Cal",
-    "id": "extra_carrots",
+    "id": "dips_carrots",
     "name": "Carrots"
   },
-  "extra_celery": {
+  "dips_celery": {
     "description": "15 Cal",
-    "id": "extra_celery",
+    "id": "dips_celery",
     "name": "Celery"
   }
 }

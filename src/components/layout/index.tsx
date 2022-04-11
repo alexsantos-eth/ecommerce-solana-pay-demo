@@ -1,20 +1,23 @@
 import React, { useContext } from "react";
 
 // COMPONENTES
-import ShopContext from "components/pages/shop/context";
+import ShopContext from "pages/shop/context";
 import Topbar from "./topbar";
 
 // ESTILOS
 import Styles from "./style.module.scss";
 
+// TOOLS
+import backColors, { dotColors } from "./utils";
+
 const Layout: React.FC = ({ children }) => {
   // PROPS
-  const { color, dotColor } = useContext(ShopContext);
+  const { step } = useContext(ShopContext);
 
   return (
-    <main className={Styles.main} style={{ background: color }}>
+    <main className={Styles.main} style={{ background: backColors[step] }}>
       <Topbar />
-      <div className={Styles.circle} style={{ background: dotColor }} />
+      <div className={Styles.circle} style={{ background: dotColors[step] }} />
       <div className={Styles.content}>{children}</div>
     </main>
   );

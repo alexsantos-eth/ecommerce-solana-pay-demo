@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 
 // COMPONENTES
-import ShopContext from "components/pages/shop/context";
+import ShopContext from "pages/shop/context";
+import SectionTitle from "../sectionTitle";
 
 // ESTILOS
 import Styles from "./style.module.scss";
@@ -22,7 +23,7 @@ const Combos: React.FC = () => {
   return (
     <div className={Styles.container}>
       <div className={Styles.content}>
-        <h1>{`How Many ${currentProduct?.name}?`}</h1>
+        <SectionTitle title={`How Many ${currentProduct?.name}?`} />
         <p>Select one option</p>
         <div className={Styles.combosContainer}>
           <ul className={Styles.combos}>

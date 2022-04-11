@@ -2,6 +2,7 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  transition: background 0.2s ease-in-out;
 
   .circle {
     top: -25%;
@@ -11,6 +12,7 @@
     position: fixed;
     border-radius: 100%;
     pointer-events: none;
+    transition: background 0.2s ease-in-out;
   }
 
   .content {

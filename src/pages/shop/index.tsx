@@ -9,10 +9,10 @@ import ShopContext, { defFormData } from "./context";
 
 const ShopPage: React.FC = () => {
   // FORMULARIO
-  const [formData] = useState<ShopContext>({ ...defFormData });
+  const [formData, setFormData] = useState<ShopContext>({ ...defFormData });
 
   return (
-    <ShopContext.Provider value={{ ...formData }}>
+    <ShopContext.Provider value={{ ...formData, setFormData }}>
       <Layout>
         <ShopContent />
       </Layout>

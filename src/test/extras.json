@@ -1,48 +1,48 @@
 {
-  "extra_french_fries": {
-    "id": "extra_french_fries",
+  "extras_french_fries": {
+    "id": "extras_french_fries",
     "description": "420 Cal",
     "name": "French Fries",
     "price": 4.99
   },
-  "extra_potato_wedges": {
-    "id": "extra_potato_wedges",
+  "extras_potato_wedges": {
+    "id": "extras_potato_wedges",
     "description": "370 Cal",
     "name": "Potato Wedges",
     "price": 5.29
   },
-  "extra_onion_rings": {
-    "id": "extra_onion_rings",
+  "extras_onion_rings": {
+    "id": "extras_onion_rings",
     "description": "420 Cal",
     "name": "Onion Rings",
     "price": 6.99
   },
-  "extra_mac_cheese": {
+  "extras_mac_cheese": {
     "description": "420 Cal",
-    "id": "extra_mac_cheese",
+    "id": "extras_mac_cheese",
     "name": "Mac & Cheese",
     "price": 5.99
   },
-  "extra_cheddar_cheese_curds": {
-    "id": "extra_cheddar_cheese_curds",
+  "extras_cheddar_cheese_curds": {
+    "id": "extras_cheddar_cheese_curds",
     "name": "Cheddar Cheese Curds",
     "description": "920 Cal",
     "price": 7.29
   },
-  "extra_tots": {
-    "id": "extra_tots",
+  "extras_tots": {
+    "id": "extras_tots",
     "name": "Tots",
     "description": "620 Cal",
     "price": 5.39
   },
-  "extra_chips_salsa": {
-    "id": "extra_chips_salsa",
+  "extras_chips_salsa": {
+    "id": "extras_chips_salsa",
     "name": "Chips & Salsa",
     "description": "520 Cal",
     "price": 5.99
   },
-  "extra_garden_side_salsa": {
-    "id": "extra_garden_side_salsa",
+  "extras_garden_side_salad": {
+    "id": "extras_garden_side_salad",
     "name": "Garden Side Salad",
     "description": "80 Cal",
     "price": 5.79

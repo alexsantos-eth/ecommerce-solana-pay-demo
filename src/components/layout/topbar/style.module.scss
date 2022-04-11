@@ -36,8 +36,8 @@
         a {
           font-size: 1.11em;
           font-weight: 700;
-          color: var(--black1);
           text-decoration: none;
+          transition: color 0.2s ease-in-out;
         }
 
         &:hover {

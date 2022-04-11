@@ -3,21 +3,19 @@
     "name": "Boneless Wings",
     "id": "boneless_wings",
     "image": "/images/boneless_wings.png",
-    "dips": [
-      "extra_blue_cheese",
-      "extra_ranch",
-      "extra_carrots",
-      "extra_celery"
-    ],
+    "maxsauces": 2,
+    "maxdips": 4,
+    "maxextras": 3,
+    "dips": ["dips_bleu_cheese", "dips_ranch", "dips_carrots", "dips_celery"],
     "extras": [
-      "extra_french_fries",
-      "extra_potato_wedges",
-      "extra_onion_rings",
-      "extra_mac_cheese",
-      "extra_cheddar_cheese_curds",
-      "extra_tots",
-      "extra_chips_salsa",
-      "extra_garden_side_salsa"
+      "extras_french_fries",
+      "extras_potato_wedges",
+      "extras_onion_rings",
+      "extras_mac_cheese",
+      "extras_cheddar_cheese_curds",
+      "extras_tots",
+      "extras_chips_salsa",
+      "extras_garden_side_salad"
     ],
     "sauces": [
       "sauce_honey_bbq",
