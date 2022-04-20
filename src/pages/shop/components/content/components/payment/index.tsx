@@ -22,6 +22,7 @@ import {
 import { shopAddress, usdcAddress } from "utils";
 import { useConnection } from "@solana/wallet-adapter-react";
 import { Keypair } from "@solana/web3.js";
+import getPayData from "./tools";
 
 const Payment: React.FC<CheckoutProps> = ({ activeCombo, selectedProp }) => {
   // PROPS
@@ -34,42 +35,22 @@ const Payment: React.FC<CheckoutProps> = ({ activeCombo, selectedProp }) => {
   const qrRef = useRef<HTMLDivElement>(null);
 
   // TOTAL
-  const totalPrice = useTotalPrice(activeCombo, selectedProp);
-  const amount = new BigNumber(totalPrice);
+  const totalPrice = Math.round(useTotalPrice(activeCombo, selectedProp));
 
   // LISTENER
   useEffect(() => {
-    const label = currentProduct.name;
-    const message = `Your ${currentProduct.name} for $${amount.toString()}`;
-    const memo = currentProduct.id;
-
-    // PAY REF
-    const reference = new Keypair().publicKey;
-
-    const url = encodeURL({
-      recipient: shopAddress,
-      amount,
-      reference,
-      splToken: usdcAddress,
-      label,
-      message,
-      memo,
-    });
-
-    console.log(url);
-
-    const qrCode = createQR(url, 420, "transparent");
-    if (qrRef.current && amount.isGreaterThan(0)) {
+    const payData = getPayData(currentProduct, totalPrice);
+    const qrCode = createQR(payData.encodeURL, 420, "transparent");
+    if (qrRef.current && payData.amount.isGreaterThan(0)) {
       qrRef.current.innerHTML = "";
       qrCode.append(qrRef.current);
     }
 
     const interval = setInterval(async () => {
       try {
-        // Check if there is any transaction for the reference
         const signatureInfo = await findTransactionSignature(
           connection,
-          reference,
+          payData.reference,
           {},
           "confirmed"
         );
@@ -78,9 +59,9 @@ const Payment: React.FC<CheckoutProps> = ({ activeCombo, selectedProp }) => {
           connection,
           signatureInfo.signature,
           shopAddress,
-          amount,
+          payData.amount,
           usdcAddress,
-          reference,
+          payData.reference,
           "confirmed"
         );
 
@@ -93,11 +74,9 @@ const Payment: React.FC<CheckoutProps> = ({ activeCombo, selectedProp }) => {
         }, 1000);
       } catch (e) {
         if (e instanceof FindTransactionSignatureError) {
-          // No transaction found yet, ignore this error
           return;
         }
         if (e instanceof ValidateTransactionSignatureError) {
-          // Transaction is invalid
           console.error("Transaction is invalid", e);
           return;
         }

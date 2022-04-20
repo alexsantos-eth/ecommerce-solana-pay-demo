@@ -60,9 +60,18 @@
     }
 
     .checkActions {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-top: 15px;
 
+      button {
+        width: 48%;
+      }
+
       .pay {
+        border: 2px solid #fc7c04;
         background: #fc7c04;
         border-radius: 50px;
         padding: 10px 20px;
@@ -71,7 +80,11 @@
         font-size: 1em;
         color: #fff;
         outline: none;
-        border: none;
+      }
+
+      .transferBtn {
+        background: transparent;
+        color: #fc7c04;
       }
     }
   }

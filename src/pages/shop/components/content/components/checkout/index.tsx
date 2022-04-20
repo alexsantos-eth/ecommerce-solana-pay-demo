@@ -1,24 +1,30 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 
 import CheckOutBanner from "assets/checkout.png";
 
-import Sauces from "../../../../../../test/sauces.json";
-import Extras from "../../../../../../test/extras.json";
-import Dips from "../../../../../../test/dips.json";
+import Sauces from "test/sauces.json";
+import Extras from "test/extras.json";
+import Dips from "test/dips.json";
 
 import SectionTitle from "../sectionTitle";
 import ShopContext from "pages/shop/context";
 
 import Styles from "./style.module.scss";
 import useTotalPrice from "./hooks";
+
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { Transaction } from "@solana/web3.js";
-import { shopAddress, usdcAddress } from "utils";
 import {
-  createTransferInstruction,
-  getOrCreateAssociatedTokenAccount,
-  TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
+  createTransaction,
+  findTransactionSignature,
+  FindTransactionSignatureError,
+  parseURL,
+  validateTransactionSignature,
+  ValidateTransactionSignatureError,
+} from "@solana/pay";
+import { shopAddress, usdcAddress } from "utils";
+import getPayData from "../payment/tools";
+import BigNumber from "bignumber.js";
+import JSConfetti from "js-confetti";
 import toast from "react-hot-toast";
 
 export interface CheckoutProps {
@@ -31,7 +37,7 @@ const Checkout: React.FC<CheckoutProps> = ({ selectedProp, activeCombo }) => {
   const { connection } = useConnection();
 
   // TRANS
-  const { publicKey, signTransaction, sendTransaction } = useWallet();
+  const { publicKey, signTransaction } = useWallet();
 
   // PROPS
   const { currentProduct, setFormData } = useContext(ShopContext);
@@ -45,37 +51,72 @@ const Checkout: React.FC<CheckoutProps> = ({ selectedProp, activeCombo }) => {
   // TRANSFER
   const makeTransfer = async () => {
     const toastId = toast.loading("Processing transaction...");
-    if (publicKey && signTransaction) {
-      const fromTokenAccount = await getOrCreateAssociatedTokenAccount(
-        connection,
-        { publicKey },
-        usdcAddress,
-        publicKey
-      );
+    const payData = getPayData(currentProduct, totalPrice);
+    const { recipient, memo, splToken, amount, reference } = parseURL(
+      payData.encodeURL
+    );
 
-      const toTokenAccount = await getOrCreateAssociatedTokenAccount(
+    if (publicKey && amount) {
+      const tx = await createTransaction(
         connection,
         publicKey,
-        usdcAddress,
-        shopAddress
+        recipient,
+        amount as BigNumber,
+        {
+          splToken,
+          reference,
+          memo,
+        }
       );
 
-      const transaction = new Transaction().add(
-        createTransferInstruction(
-          fromTokenAccount.address,
-          toTokenAccount.address,
-          fromTokenAccount.address,
-          totalPrice,
-          [],
-          TOKEN_PROGRAM_ID
-        )
-      );
+      if (signTransaction) {
+        const { blockhash } = await connection.getLatestBlockhash("finalized");
+        tx.recentBlockhash = blockhash;
+        tx.feePayer = publicKey;
+        const signTx = await signTransaction(tx);
+        await connection.sendRawTransaction(signTx.serialize());
 
-      const signature = await sendTransaction(transaction, connection);
-      const response = await connection.confirmTransaction(
-        signature,
-        "processed"
-      );
+        const interval = setInterval(async () => {
+          try {
+            const signatureInfo = await findTransactionSignature(
+              connection,
+              payData.reference,
+              {},
+              "confirmed"
+            );
+
+            await validateTransactionSignature(
+              connection,
+              signatureInfo.signature,
+              shopAddress,
+              payData.amount,
+              usdcAddress,
+              payData.reference,
+              "confirmed"
+            );
+
+            // VALIDAR
+            const jsConfetti = new JSConfetti();
+            jsConfetti.addConfetti();
+            toast.remove(toastId);
+            toast.success("Succesfully payment");
+
+            clearInterval(interval);
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } catch (e) {
+            if (e instanceof FindTransactionSignatureError) {
+              return;
+            }
+            if (e instanceof ValidateTransactionSignatureError) {
+              console.error("Transaction is invalid", e);
+              return;
+            }
+            console.error("Unknown error", e);
+          }
+        }, 500);
+      }
     }
   };
 
@@ -133,8 +174,11 @@ const Checkout: React.FC<CheckoutProps> = ({ selectedProp, activeCombo }) => {
           </div>
 
           <div className={Styles.checkActions}>
-            <button onClick={makeTransfer} className={Styles.pay}>
-              Transfer
+            <button
+              onClick={makeTransfer}
+              className={`${Styles.pay} ${Styles.transferBtn}`}
+            >
+              Open Wallet
             </button>
             <button onClick={nextPage} className={Styles.pay}>
               Solana Pay
