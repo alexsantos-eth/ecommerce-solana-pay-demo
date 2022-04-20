@@ -9,6 +9,12 @@
   width: 100%;
   top: 0;
 
+  .checktitle {
+    color: var(--yellow1);
+    font-weight: 700;
+    font-size: 1.3em;
+  }
+
   .actions {
     button {
       border: none;

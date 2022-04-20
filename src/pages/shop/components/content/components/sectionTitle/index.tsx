@@ -10,7 +10,10 @@ const SectionTitle: React.FC<SectionTitleProps> = ({ title }) => {
   const { step } = useContext(ShopContext);
 
   return (
-    <h1 style={{ color: fontColors[step] }} className={Styles.title}>
+    <h1
+      style={{ color: fontColors[step], width: step === 4 ? "250px" : "385px" }}
+      className={Styles.title}
+    >
       {title}
     </h1>
   );

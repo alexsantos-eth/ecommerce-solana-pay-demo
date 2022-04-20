@@ -7,12 +7,13 @@ import SectionTitle from "../sectionTitle";
 // ESTILOS
 import Styles from "./style.module.scss";
 
-const Combos: React.FC = () => {
+interface CombosProps {
+  setActiveCombo: SetState<number>;
+  activeCombo: number;
+}
+const Combos: React.FC<CombosProps> = ({ activeCombo, setActiveCombo }) => {
   // PROPS
   const { currentProduct } = useContext(ShopContext);
-
-  // ESTADO
-  const [activeCombo, setActiveCombo] = useState<number>(1);
 
   // CONTADOR
   const handleComboCounter = (add: number) => () =>

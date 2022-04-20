@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+
 // ASSETS
 import LogoWhite from "assets/logo_white.png";
 import LogoBlack from "assets/logo_dark.png";
@@ -10,8 +12,11 @@ import ShopContext from "pages/shop/context";
 // ESTILOS
 import Styles from "./style.module.scss";
 import { fontColors } from "../utils";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const Topbar = () => {
+  const { connected } = useWallet();
+
   const { step } = useContext(ShopContext);
 
   return (
@@ -57,7 +62,7 @@ const Topbar = () => {
             </a>
           </li>
           <li className={Styles.connectWallet}>
-            <button>Connect Wallet</button>
+            <WalletMultiButton className={Styles.connect} />
           </li>
         </ul>
       </div>

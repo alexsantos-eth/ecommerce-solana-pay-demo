@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 // CONTEXT
 import ShopContext from "pages/shop/context";
 import { addProp } from "./events";
-import useLoadList from "../productProp/hooks";
 
 // ESTILOS
 import Styles from "./style.module.scss";
@@ -11,6 +10,7 @@ import Styles from "./style.module.scss";
 const ProductSlider: React.FC<ExtraSliderProps> = ({
   list,
   type,
+  free,
   setSelectedProp,
   selectedProp,
 }) => {
@@ -19,7 +19,7 @@ const ProductSlider: React.FC<ExtraSliderProps> = ({
 
   // AGREGAR PROP
   const handleProp = (id: string, add: number) => () =>
-    addProp(setSelectedProp, add, id, type, currentProduct);
+    addProp(setSelectedProp, add, id, type, currentProduct, free);
 
   return (
     <div className={Styles.container}>

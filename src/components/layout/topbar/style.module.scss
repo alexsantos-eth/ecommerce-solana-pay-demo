@@ -40,10 +40,6 @@
           transition: color 0.2s ease-in-out;
         }
 
-        &:hover {
-          transform: scale(1.1);
-        }
-
         button {
           border: none;
           outline: none;
@@ -55,6 +51,12 @@
           color: var(--black1);
           border-radius: 100px;
           background: var(--white1);
+        }
+
+        .connect {
+          &:hover {
+            color: #fff;
+          }
         }
       }
     }

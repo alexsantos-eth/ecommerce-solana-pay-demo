@@ -30,9 +30,10 @@
       grid-template-columns: auto;
       grid-auto-flow: row;
       row-gap: 10px;
+      max-height: 188px;
+      overflow-y: auto;
 
       li {
-        color: var(--white1);
         font-weight: 500;
         font-size: 1.2em;
       }
